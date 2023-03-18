@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movie_infos/Screens/itemScreen.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import 'home.dart';
 
@@ -17,7 +18,8 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Movie infos',
       theme: ThemeData(),
-      home: const ItemScreen(),
+      builder: EasyLoading.init(),
+      home: const Home(),
     );
   }
 }
