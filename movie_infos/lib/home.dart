@@ -50,9 +50,9 @@ class _HomeState extends State<Home> {
           : ListView.builder(
               itemCount: notes.length,
               itemBuilder: (context, index) => GestureDetector(
-                onTap: (){
-                  // Navigator.push(context, route)
-                },
+                    onTap: () {
+                      // Navigator.push(context, route)
+                    },
                     onDoubleTap: () {
                       titleController.text = notes[index].title;
                       descController.text = notes[index].description;
@@ -69,7 +69,7 @@ class _HomeState extends State<Home> {
                         child: Row(
                           // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            SizedBox(
+                            Container(
                               width: 80,
                               height: 80,
                               child: ClipRRect(
@@ -81,32 +81,29 @@ class _HomeState extends State<Home> {
                               width: 5,
                             ),
                             Expanded(
-                              child: Center(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 5),
-                                      child: Text(
-                                        notes[index].title,
-                                        style: const TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 18),
-                                      ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.symmetric(vertical: 5),
+                                    child: Text(
+                                      notes[index].title,
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 18),
                                     ),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 7),
-                                      child: Text(
-                                        notes[index].description,
-                                        maxLines: 2,
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                    )
-                                  ],
-                                ),
+                                  ),
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.symmetric(vertical: 7),
+                                    child: Text(
+                                      notes[index].description,
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  )
+                                ],
                               ),
                             )
                           ],
