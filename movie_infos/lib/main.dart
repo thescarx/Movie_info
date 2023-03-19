@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:movie_infos/Screens/itemScreen.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:movie_infos/Screens/splash.dart';
 
 import 'home.dart';
 
@@ -19,7 +20,8 @@ class MyApp extends StatelessWidget {
       title: 'Movie infos',
       theme: ThemeData(),
       builder: EasyLoading.init(),
-      home: const Home(),
+
+      home: const SplashScreen(),
     );
   }
 }

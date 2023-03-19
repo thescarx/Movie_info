@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:movie_infos/Screens/itemScreen.dart';
 
 import 'Models/itemList.dart';
 
@@ -22,6 +23,8 @@ class _HomeState extends State<Home> {
     var size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.deepPurple,
+        elevation: 0,
         title: const Text('Home'),
         actions: [
           IconButton(
@@ -38,6 +41,7 @@ class _HomeState extends State<Home> {
                 children: const [
                   Icon(
                     Icons.note,
+                    color: Colors.deepPurple,
                     size: 100,
                   ),
                   Text(
@@ -51,8 +55,7 @@ class _HomeState extends State<Home> {
               itemCount: notes.length,
               itemBuilder: (context, index) => GestureDetector(
                     onTap: () {
-                      // Navigator.push(context, route)
-                    },
+                       Navigator.push(context,MaterialPageRoute(builder:  (context) =>  ItemScreen(note: notes[index],)));},
                     onDoubleTap: () {
                       titleController.text = notes[index].title;
                       descController.text = notes[index].description;
@@ -60,7 +63,7 @@ class _HomeState extends State<Home> {
                     },
                     onLongPress: () => showSupp(index),
                     child: Card(
-                      elevation: 5,
+                      elevation: 2,
                       child: SizedBox(
                         width: size.width * 0.9,
                         height: size.height * 0.15,
@@ -74,7 +77,7 @@ class _HomeState extends State<Home> {
                               height: 80,
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(50),
-                                child: Image.asset('assets/logo.jpg'),
+                                child: Image.asset('assets/logo.png'),
                               ),
                             ),
                             const SizedBox(
@@ -83,6 +86,7 @@ class _HomeState extends State<Home> {
                             Expanded(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Padding(
                                     padding:

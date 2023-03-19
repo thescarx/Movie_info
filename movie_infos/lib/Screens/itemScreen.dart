@@ -1,34 +1,40 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:audio_waveforms/audio_waveforms.dart';
+
 import 'package:flutter_tts/flutter_tts.dart';
-import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+import 'package:intl/intl.dart';
+import 'package:movie_infos/Screens/audioPlay.dart';
 import 'package:path_provider/path_provider.dart';
+
+import '../Models/itemList.dart';
+import '../Widgets/audioplayer.dart';
 class ItemScreen extends StatefulWidget {
-  const ItemScreen({Key? key}) : super(key: key);
+
+  Note note;
+  ItemScreen({Key? key,required this.note}) : super(key: key);
 
   @override
   State<ItemScreen> createState() => _ItemScreenState();
 }
 
 class _ItemScreenState extends State<ItemScreen> {
-  String text="yahia boukharouba is a bitch";
-  PlayerController controller = PlayerController();
 
-  _loadData(path) async {
-    await controller.preparePlayer(
-      path: path,
-      shouldExtractWaveform: true,
-      noOfSamples: 100,
-      volume: 1.0,
-    );
+  String filee='';
+  List<double> list=[];
+  String dat='';
+  _load(){
+    setState(() {
+      dat=DateFormat('E MMM dd HH:mm:ss y').format(widget.note.date);
+    });
+
   }
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    saveTtsToCache(text);
+    _load();
+    saveTtsToCache(widget.note.description);
   }
 
 
@@ -36,36 +42,37 @@ class _ItemScreenState extends State<ItemScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Center(child: Text('Notes')),
+        backgroundColor: Colors.deepPurple,
+        elevation: 0,
+        title: const Text('Notes'),
+        actions: [
+
+        ],
       ),
-      body: Center(
-        child: Column(
-          children:  [
-           const SizedBox(
-              height: 100,
-              width: 100,
-              child: Icon(Icons.file_copy_rounded),
-            ),
-           const SizedBox(height: 20,),
-           const Text("Nadia Elouali",style: TextStyle(color: Colors.grey),),
-            const SizedBox(height: 20,),
-            Text(text,style: TextStyle(color: Colors.grey),),
-            const SizedBox(height: 20,),
-            Text(DateTime.now().toString()),
-            const SizedBox(height: 20,),
-        AudioFileWaveforms(
-            size: Size(MediaQuery.of(context).size.width, 100.0),
-            playerController: controller,
-            enableSeekGesture: true,
-            waveformType: WaveformType.long,
-            waveformData: [],
-            playerWaveStyle: const PlayerWaveStyle(
-                fixedWaveColor: Colors.white54,
-                liveWaveColor: Colors.blueAccent,
-                spacing: 6,
-            ),
-        )
-          ],
+      body: Container(
+        color: Colors.white,
+        child: Center(
+          child: Column(
+            children:  [
+              Container(
+                height: 200,
+                width: 150,
+                child: Image.asset(
+                  "assets/logo.png",
+                  fit: BoxFit.fill,
+                ),
+              ),
+             const SizedBox(height: 20,),
+             if(widget.note.title!=null) Text(widget.note.title,style: const TextStyle(color: Colors.grey, fontWeight: FontWeight.bold),),
+              const SizedBox(height: 20,),
+              Text(widget.note.description,style: const TextStyle(color: Colors.grey,fontWeight:FontWeight.w500),),
+              const SizedBox(height: 20,),
+              Text(dat,style: const TextStyle(color: Colors.grey,fontWeight:FontWeight.w500)),
+              const SizedBox(height: 20,),
+             if(filee.isNotEmpty) AudioPlayerWidget(audioUrl: filee)
+
+            ],
+          ),
         ),
       ),
     );
@@ -73,7 +80,7 @@ class _ItemScreenState extends State<ItemScreen> {
 
   Future<void> saveTtsToCache(String text) async {
     final FlutterTts flutterTts = FlutterTts();
-    final String filename = text.hashCode.toString();
+    final String filename = '${text.hashCode.toString()}';
 
     // Configure TTS
     await flutterTts.setLanguage("en-US");
@@ -82,11 +89,16 @@ class _ItemScreenState extends State<ItemScreen> {
     print(filename);
     // Generate audio from text
     await flutterTts.synthesizeToFile(text, filename);
-    final Directory directory = await getApplicationDocumentsDirectory();
-    final String filePath = '${directory.path}/$filename';
+    final Directory? directory = await getExternalStorageDirectory();
+    final String filePath = '${directory!.path}/$filename';
     print(filePath);
+    setState(() {
+      filee=filePath;
+    });
 
-     _loadData('/storage/emulated/0/Android/data/com.example.movie_infos/files/520438672');
+    // _loadData(filePath);
   }
 }
+
+
 
